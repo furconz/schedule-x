@@ -1,3 +1,4 @@
+import { JSXInternal } from 'preact/src/jsx'
 import { EventId } from '../../types/event-id'
 import { EventFragments } from './event-fragments'
 
@@ -5,6 +6,14 @@ export type CalendarEventOptions = {
   disableDND?: boolean
   disableResize?: boolean
   additionalClasses?: string[]
+}
+
+export type CalendarEventActionButton = {
+  id: string
+  icon: JSXInternal.Element
+  title?: string
+  callback?: (calendarEvent: CalendarEventExternal, currentState?: string) => string | undefined
+  state?: string
 }
 
 export default interface CalendarEventExternal {
@@ -22,6 +31,9 @@ export default interface CalendarEventExternal {
     dateGrid?: string
     monthGrid?: string
     monthAgenda?: string
+  }
+  _actionButtons?: {
+    timeGrid?: CalendarEventActionButton[]
   }
   _options?: CalendarEventOptions
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

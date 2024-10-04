@@ -214,6 +214,27 @@ export default function TimeGridEvent({
                 </div>
               )}
 
+              {calendarEvent._actionButtons && calendarEvent._actionButtons.timeGrid && calendarEvent._actionButtons.timeGrid.length > 0 && (calendarEvent._actionButtons.timeGrid.map((actionButton) => 
+                <div className="sx__time-grid-action-button" title={actionButton.title} data-state={actionButton.state} onClick={(event) => {
+                  if (actionButton.callback) {
+                    event.stopPropagation()
+                    
+                    const newState = actionButton.callback(calendarEvent, actionButton.state)
+                    if (newState != actionButton.state) {
+                      actionButton.state = newState
+                      const caller = event.target as Element
+                      if (newState !== undefined) {
+                        caller.setAttribute("data-state", newState)
+                      } else {
+                        caller.removeAttribute("data-state")
+                      }
+                    }
+                  }
+                }}>
+                  {actionButton.icon}
+                </div>
+              ))}
+
               <div className="sx__time-grid-event-time">
                 <TimeIcon strokeColor={eventCSSVariables.iconStroke} />
                 {getEventTime(calendarEvent.start, calendarEvent.end)}
